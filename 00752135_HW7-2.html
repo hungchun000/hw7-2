@@ -47,6 +47,7 @@
         function clearAllSearches() {///!
             clearAllSearch();
             clearAllSearch();
+            window.alert("All items were removed!");
         }
         function clearAllSearch() {
 
@@ -65,7 +66,6 @@
                     localStorage.removeItem(str1);      //clearAllSearch() two times
                 }
             }
-            window.alert("All items were removed!");
             loadSearches();
 
         } // end function clearAllSearches
