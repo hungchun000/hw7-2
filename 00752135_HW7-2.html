@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>00752135_HW7-2_LocalStorage</title>
+
+    <style type="text/CSS">
+        table {
+            width: 90%;
+            border-collapse: collapse;
+            background-color: lightblue;
+            font-family: Perpetua;
+        }
+
+        table, td, th {
+            border: 1px solid black;
+            padding: 4px;
+        }
+
+        th {
+            text-align: center;
+            color: white;
+            background-color: darkblue;
+        }
+
+        tr.oddrow {
+            background-color: white;
+        }
+
+        td {
+            text-align: center;
+        }
+    </style>
+
+    <script type="text/javascript">
+        // TODO
+        var tags; // array of tags for queries
+        function start() {
+            var addButton = document.getElementById("addButton");
+            addButton.addEventListener("click", saveSearch, false);
+            var removeAllButton = document.getElementById("removeAllButton");
+            removeAllButton.addEventListener("click", clearAllSearches, false);
+            loadSearches(); // load the previously saved searches
+        } // end function start
+
+        function clearAllSearches() {///!
+            clearAllSearch();
+            clearAllSearch();
+        }
+        function clearAllSearch() {
+
+            //localStorage.clear();
+            //loadSearches(); // reload searches
+            //////////////////////////////
+
+            console.log(localStorage.length);
+
+            for (let i = localStorage.length-1; i >= 0; i--) {
+                console.log(i + " " + localStorage.key(i));
+
+                var str1 = "";
+                str1 = localStorage.key(i);
+                if (str1.startsWith("ntou-") == true) {
+                    localStorage.removeItem(str1);      //clearAllSearch() two times
+                }
+            }
+            window.alert("All items were removed!");
+            loadSearches();
+
+        } // end function clearAllSearches
+
+        // saves a newly tagged search into localStorage
+        function saveSearch() {
+            var query1 = document.getElementById("query1");
+            var query2 = document.getElementById("query2");
+            var query3 = document.getElementById("query3");
+            var query4 = document.getElementById("query4");
+
+            var d = new Date();
+            var n = d.getTime();
+
+            var obj = { title: query1.value, author: query2.value, year: query3.value, url: query4.value };
+            var myJSON = JSON.stringify(obj);
+            var key = "ntou-" + n;
+            //localStorage.setItem(query3.value, query2.value, query3.value, query4.value);
+            localStorage.setItem(key, myJSON);
+
+
+            query1.value = ""; // clear input
+            query2.value = ""; // clear input
+            query3.value = ""; // clear input
+            query4.value = ""; // clear input
+            loadSearches(); // reload searches
+        } // end function saveSearch
+
+        // loads previously saved searches and displays them in the page
+        function loadSearches() {
+
+            var length = localStorage.length; // number of key-value pairs
+            tags = [];                        // create empty array
+
+            // load all keys
+            for (let i = 0; i < localStorage.length; i++) {
+                if (localStorage.key(i).indexOf("ntou-") != -1) {        //ntou-才加入tags
+                    tags[i] = localStorage.key(i);
+                }
+            }// end for
+            tags.sort(); // sort the keys
+
+
+            var markup = "<table><tr><th>Title</th><th>Author</th><th>Year</th><th>URL</th></tr>"; // used to store search link markup
+            // build list of links
+            for (var tag in tags) {
+                //console.log(localStorage.getItem("ntou-1637962425352"));
+
+                var obj = JSON.parse(localStorage.getItem(tags[tag]));
+
+                //console.log(obj.title+obj.author+obj.year+obj.url);
+                //var query = url + localStorage.getItem(tags[tag]);
+                console.log(obj.title + " " + obj.author + " " + obj.year + " " + obj.url);
+
+                markup +=
+                    "<tr><td>" + obj.title + "</td><td>" + obj.author + "</td><td>" + obj.year + "</td><td><span><a href = '" + obj.url + "'target='_blank'>" + obj.url + "</a></span></td></tr>";
+            } // end for
+
+            markup += "</table>";
+            document.getElementById("display").innerHTML = markup;
+        } // end function loadSearches
+
+
+        window.addEventListener("load", start, false);
+    </script>
+</head>
+
+<body>
+    <form action="#">
+        <p>
+            <label>Book Title:
+                <input id="query1" type="text" placeholder="Please enter Book Title">
+            </label>
+            <label>Author(s):
+                <input id="query2" type="text" placeholder="Please enter Author(s)">
+            </label>
+            <label>Year:
+                <input id="query3" type="number" placeholder="Please enter Year">
+            </label>
+            <label>Book URL:
+                <input id="query4" type="url" placeholder="Please enter Book URL">
+            </label>
+        </p>
+
+        <p>
+            <input type="button" value="Add New Item" id="addButton">
+            <input type="button" value="Remove All Items" id="removeAllButton">
+        </p>
+    </form>
+    <hr>
+    <div id="display">
+        <table>
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Year</th>
+                <th>URL</th>
+            </tr>
+        </table>
+    </div>
+</body>
+
+</html>
+
+<!--
+
+    for (var tag in tags) {
+                var query = url + localStorage.getItem(tags[tag]);
+                markup +=
+                    "<li><span><a href = '" + query + "'>" + tags[tag] +"</a></span>" +
+                    "<input id = '" + tags[tag] + "' type = 'button' " +
+                    "value = 'Edit' onclick = 'editTag(id)'>" +
+                    "<input id = '" + tags[tag] + "' type = 'button' " +
+                    "value = 'Delete' onclick = 'deleteTag(id)'>";
+            } // end for
+
+
+
+            function clearAllSearches() {
+
+            //localStorage.clear();
+            //loadSearches(); // reload searches
+            //////////////////////////////
+
+            console.log(localStorage.length);
+
+            for (let i = localStorage.length - 1; i >= 0; i--) {
+                console.log(i + " " + localStorage.key(i));
+
+                var str1 = "";
+                str1 = localStorage.key(i);
+                if (str1.startsWith("ntou-") == true) {
+                    localStorage.removeItem(str1);
+                    //山不完
+                }
+            }
+            window.alert("All items were removed!");
+            loadSearches();
+
+        } // end function clearAllSearches
+-->
