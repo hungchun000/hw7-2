@@ -167,43 +167,4 @@
         </table>
     </div>
 </body>
-
 </html>
-
-<!--
-
-    for (var tag in tags) {
-                var query = url + localStorage.getItem(tags[tag]);
-                markup +=
-                    "<li><span><a href = '" + query + "'>" + tags[tag] +"</a></span>" +
-                    "<input id = '" + tags[tag] + "' type = 'button' " +
-                    "value = 'Edit' onclick = 'editTag(id)'>" +
-                    "<input id = '" + tags[tag] + "' type = 'button' " +
-                    "value = 'Delete' onclick = 'deleteTag(id)'>";
-            } // end for
-
-
-
-            function clearAllSearches() {
-
-            //localStorage.clear();
-            //loadSearches(); // reload searches
-            //////////////////////////////
-
-            console.log(localStorage.length);
-
-            for (let i = localStorage.length - 1; i >= 0; i--) {
-                console.log(i + " " + localStorage.key(i));
-
-                var str1 = "";
-                str1 = localStorage.key(i);
-                if (str1.startsWith("ntou-") == true) {
-                    localStorage.removeItem(str1);
-                    //山不完
-                }
-            }
-            window.alert("All items were removed!");
-            loadSearches();
-
-        } // end function clearAllSearches
--->
